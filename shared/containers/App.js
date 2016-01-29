@@ -1,16 +1,18 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import MainContainer from '../components/MainContainer';
-import * as AutoActions  from '../actions/auto';
+import React, { Component, PropTypes } from 'react';
 
-function mapStateToProps(state){
-    return {
-        auto: state.auto
+class App extends Component{
+    render() {
+        return (
+            <div id="main-view">
+                <h1>App</h1>
+                { this.props.children }
+            </div>
+        )
     }
-}
+};
 
-function mapDispatchToProps(dispatch){
-    return bindActionCreators(AutoActions, dispatch);
-}
+App.propTypes = {
+    children: PropTypes.object
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default App;

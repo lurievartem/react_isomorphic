@@ -7,11 +7,12 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackConfig from '../webpack.config'
 
 import React from 'react';
+import { RoutingContext, match } from 'react-router';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 
+import routes from '../shared/routes';
 import configureStore from '../shared/store/configureStore';
-import App from '../shared/containers/App';
 
 const app = new Express();
 const port = 3000;
@@ -28,14 +29,25 @@ function handleRender(req, res){
     const initialState = { auto };
     const store = configureStore(initialState);
 
-    const html = renderToString(
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    );
+    match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+        if(error){
+            res.send(500, error.message);
+        } else if(redirectLocation){
+            res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+        } else if(!renderProps){
+            res.status(404).send('Not found');
+        } else{
 
-    const finalState = store.getState();
-    res.send(renderFullPage(html, finalState));
+            const html = renderToString(
+                <Provider store={store}>
+                    <RoutingContext {...renderProps}/>
+                </Provider>
+            );
+
+            const finalState = store.getState();
+            res.send(renderFullPage(html, finalState));
+        }
+    });
 }
 
 function renderFullPage(html, initialState){
