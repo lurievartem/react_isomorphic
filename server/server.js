@@ -1,5 +1,10 @@
 import path from 'path';
-import Express from 'express';
+import express from 'express';
+import bodyParser from 'body-parser';
+import favicon from 'serve-favicon';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import { graphql } from 'graphql';
 
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
@@ -11,18 +16,46 @@ import { RoutingContext, match } from 'react-router';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 
+import { server as config } from './config/config';
 import routes from '../shared/routes';
 import configureStore from '../shared/store/configureStore';
+import schema from './database/schema';
+import mongo from './database/mongo-db.js';
 
-const app = new Express();
-const port = 3000;
+const app = new express();
+const port = process.env.PORT || config.port || 3000;
 
 //set hot module reloading via webpack
 const compiler = webpack(webpackConfig)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
 
-app.get('/', handleRender);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text({type: 'application/graphql'}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, '../public')));
+app.use(favicon(path.join(__dirname, '../public/favicon.ico')));
+
+if(process.env.NODE_ENV === 'development'){
+    app.use(morgan('dev'));
+}
+
+app.post('/graphql', (req, res) => {
+    graphql(schema, req.body)
+        .then((result) => {
+            res.send(result);
+        });
+});
+app.use(handleRender);
+
+app.listen(port, (error) => {
+  if (error) {
+    console.error(error)
+  } else {
+    console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
+  }
+})
 
 function handleRender(req, res){
     const auto = 12;
@@ -49,7 +82,6 @@ function handleRender(req, res){
         }
     });
 }
-
 function renderFullPage(html, initialState){
     return `
         <!doctype html>
@@ -67,11 +99,3 @@ function renderFullPage(html, initialState){
         </html>
     `;
 }
-
-app.listen(port, (error) => {
-  if (error) {
-    console.error(error)
-  } else {
-    console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
-  }
-})

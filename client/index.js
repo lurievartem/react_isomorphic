@@ -15,7 +15,7 @@ const history = createBrowserHistory();
 
 render(
     <Provider store={store}>
-        <Router children={routes} history={history} />
+        <Router history={history}>{routes}</Router>
     </Provider>,
     rootElement
 )

@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import auto from './autoReducer';
+import sign from './signReducer';
 
 const rootReducer = combineReducers({
-    auto
+    auto,
+    sign
 });
 
 export default rootReducer;
