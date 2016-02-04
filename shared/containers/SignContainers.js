@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as SignActions from '../actions/SignActions';
-import SignForm from '../components/SignForm';
+import SignFormPage from '../components/SignFormPage';
 
 function mapStateToProps(state){
     return {
@@ -14,4 +13,4 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators(SignActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignFormPage);

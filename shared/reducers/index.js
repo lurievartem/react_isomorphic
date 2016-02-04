@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import auto from './autoReducer';
 import sign from './signReducer';
+import userReducer from './userReducer';
 
 const rootReducer = combineReducers({
-    auto,
-    sign
+    sign,
+    userReducer
 });
 
 export default rootReducer;

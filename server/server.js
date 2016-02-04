@@ -17,10 +17,11 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 
 import { server as config } from './config/config';
-import routes from '../shared/routes';
-import configureStore from '../shared/store/configureStore';
 import schema from './database/schema';
 import mongo from './database/mongo-db.js';
+import routes from '../shared/routes';
+import configureStore from '../shared/store/configureStore';
+import { fetchComponentsData } from './utils';
 
 const app = new express();
 const port = process.env.PORT || config.port || 3000;
@@ -58,8 +59,7 @@ app.listen(port, (error) => {
 })
 
 function handleRender(req, res){
-    const auto = 12;
-    const initialState = { auto };
+    const initialState = { };
     const store = configureStore(initialState);
 
     match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -69,21 +69,33 @@ function handleRender(req, res){
             res.redirect(302, redirectLocation.pathname + redirectLocation.search);
         } else if(!renderProps){
             res.status(404).send('Not found');
-        } else{
+        }
 
+        function renderView(){
             const html = renderToString(
                 <Provider store={store}>
                     <RoutingContext {...renderProps}/>
                 </Provider>
             );
 
-            const finalState = store.getState();
-            res.send(renderFullPage(html, finalState));
+            return renderFullPage(html, store.getState());
         }
+
+        fetchComponentsData(
+            store.dispatch,
+            renderProps.components,
+            renderProps.params,
+            renderProps.location.query
+        )
+        .then(renderView)
+        .then(html => res.end(html))
+        .catch(err => res.end(err.message));
+
     });
 }
+
 function renderFullPage(html, initialState){
-    return `
+    const HTML = `
         <!doctype html>
         <html>
             <head>
@@ -98,4 +110,6 @@ function renderFullPage(html, initialState){
             </body>
         </html>
     `;
+
+    return HTML;
 }

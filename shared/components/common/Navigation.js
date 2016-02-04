@@ -6,12 +6,11 @@ export default class Navigation extends Component{
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
-                    <Link to="home" className="navbar-brand">Home</Link>
+                    <IndexLink to="/" className="navbar-brand">Home</IndexLink>
                     <ul className="nav navbar-nav">
-                        <li><IndexLink to="/">Home</IndexLink></li>
+                        <li><Link to="users">Users</Link></li>
                         <li><Link to="about">About</Link></li>
                         <li><Link to="sign">Sign</Link></li>
-                        <li><Link to="login">Login</Link></li>
                     </ul>
                 </div>
             </nav>

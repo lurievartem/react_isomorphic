@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import Navigation from '../components/common/Navigation';
+import Navigation from './common/Navigation';
 
-class App extends Component{
+class AppPage extends Component{
     render() {
         return (
             <div id="main-view">
@@ -13,8 +13,8 @@ class App extends Component{
     }
 };
 
-App.propTypes = {
+AppPage.propTypes = {
     children: PropTypes.object
 };
 
-export default App;
+export default AppPage;

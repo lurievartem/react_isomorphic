@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextInput from './common/TextInput';
 
-class SignForm extends Component{
+class SignFormPage extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -67,4 +67,4 @@ class SignForm extends Component{
     }
 };
 
-export default SignForm;
+export default SignFormPage;

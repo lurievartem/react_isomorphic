@@ -1,20 +1,18 @@
 import React from 'react';
 import { Route, Redirect, IndexRoute } from 'react-router';
 
-import App from './containers/App';
-import Home from './containers/Home';
-import Login from './containers/Login';
-import Sign from './containers/Sign';
+import AppPage from './components/AppPage';
+import AboutPage from './components/AboutPage';
+import NoMatchPage from './components/NoMatchPage';
 
-import About from './components/About';
-import NoMatch from './components/NoMatch';
+import Sign from './containers/SignContainers';
+import Users from './containers/UsersContainers';
 
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={Home} />
-    <Route  path="about" component={About} />
-    <Route  path="login" component={Login} />
-    <Route  path="sign" component={Sign} />
-    <Route path="*" component={NoMatch}/>
-  </Route>
+    <Route path="/" component={AppPage}>
+        <Route  path="about"    component={AboutPage}   />
+        <Route  path="users"    component={Users}       />
+        <Route  path="sign"     component={Sign}        />
+        <Route  path="*"        component={NoMatchPage} />
+    </Route>
 );
