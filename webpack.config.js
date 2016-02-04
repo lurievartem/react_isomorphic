@@ -29,23 +29,18 @@ module.exports = {
                 test: /\.js?$/,
                 exclude: [/node_modules/, /dist/],
                 include: __dirname,
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: {
-                    stage: 0,
+                    presets: ["es2015", "stage-0", "react"],
                     env: {
-                        development:{
-                            plugins: [ 'react-transform' ],
-                            extra: {
-                                'react-transform': {
-                                    transforms: [
-                                        {
-                                            transform: 'react-transform-hmr',
-                                            imports: [ 'react' ],
-                                            locals:  [ 'module' ]
-                                        }
-                                    ]
-                                }
-                            }
+                        development: {
+                            plugins: [["react-transform", {
+                                transforms: [{
+                                    transform: "react-transform-hmr",
+                                    imports: ["react"],
+                                    locals: ["module"]
+                                }]
+                            }]]
                         }
                     }
                 }
