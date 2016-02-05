@@ -24,16 +24,15 @@ module.exports = {
             { test: /\.png$/, loader: "url-loader?limit=10000&mimetype=image/png" },
             { test: /\.svg/, loader: "url-loader?limit=26000&mimetype=image/svg+xml" },
             { test: /\.(woff|woff2|ttf|eot)/, loader: "url-loader?limit=1" },
-
             {
                 test: /\.js?$/,
                 exclude: [/node_modules/, /dist/],
                 include: __dirname,
-                loader: 'babel-loader',
-                query: {
-                    presets: ["react-hmre"]
-                }
+                loader: 'babel-loader?presets[]=react-hmre!eslint-loader'
             }
         ]
+    },
+    eslint: {
+        configFile: './.eslintrc'
     }
 };

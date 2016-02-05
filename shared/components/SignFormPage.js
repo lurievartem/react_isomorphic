@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import TextInput from './common/TextInput';
 
 class SignFormPage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            user: this.props.user || {}
+            user: this.props.user
         };
     }
+
+    static propTypes = {
+        user: PropTypes.object.isRequired,
+        save: PropTypes.func.isRequired,
+    };
 
     render(){
         const wrapperClass = 'form-group';

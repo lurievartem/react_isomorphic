@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, IndexRoute } from 'react-router';
+import { Route /*, Redirect, IndexRoute*/ } from 'react-router';
 
 import AppPage from './components/AppPage';
 import AboutPage from './components/AboutPage';

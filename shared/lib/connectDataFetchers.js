@@ -1,8 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default function connectDataFetchers(MainComponent, actionCreators){
 
     class DataFetchersWrapper extends Component{
+
+        static propTypes = {
+            dispatch: PropTypes.func,
+            params: PropTypes.object,
+            location: PropTypes.object
+        };
+
+        static fetchData(dispatch, params = {}, query = {}){
+            return Promise.all(
+                actionCreators.map(actionCreator => dispatch(actionCreator(params, query)))
+            );
+        }
+
         render(){
             return (
                 <MainComponent {...this.props} />
@@ -18,13 +31,6 @@ export default function connectDataFetchers(MainComponent, actionCreators){
         }
     }
 
-    DataFetchersWrapper.fetchData = (dispatch, params = {}, query = {}) =>{
-        return Promise.all(
-            actionCreators.map(actionCreator =>
-                dispatch(actionCreator(params, query))
-            )
-        );
-    };
 
     return DataFetchersWrapper;
 }

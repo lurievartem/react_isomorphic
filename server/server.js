@@ -3,7 +3,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
 import { graphql } from 'graphql';
 
 import webpack from 'webpack'
@@ -37,10 +36,6 @@ app.use(bodyParser.text({type: 'application/graphql'}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public/favicon.ico')));
-
-if(process.env.NODE_ENV === 'development'){
-    app.use(morgan('dev'));
-}
 
 app.post('/graphql', (req, res) => {
     graphql(schema, req.body)

@@ -4,6 +4,7 @@ export default class UserApi extends Base{
 
     request(action, params){
         let query = '';
+
         switch(action){
             case('getAll'):
                 query =`query RootQuery {
@@ -12,6 +13,10 @@ export default class UserApi extends Base{
                                 name
                             }
                         }`;
+                break;
+            default:
+                console.error('Can\'t find action %s and params %O in UserApi', action, params);
+                return;
         }
 
         return this.apiClient(query);

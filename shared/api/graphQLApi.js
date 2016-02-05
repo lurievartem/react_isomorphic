@@ -6,7 +6,7 @@ export default (queryString) => {
     return fetch(url, {
         method: 'post',
         headers: {
-            "Content-type": "application/graphql"
+            'Content-type': 'application/graphql'
         },
         body: queryString
     }).then(res => {

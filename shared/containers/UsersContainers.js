@@ -11,7 +11,9 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators(UserActions, dispatch);
+    return { ... bindActionCreators(UserActions, dispatch), dispatch };
 }
 
-export default connect(mapStateToProps)(connectDataFetchers(UserPage, [ UserActions.loadUsers ]));
+export default connect(mapStateToProps, mapDispatchToProps)(
+    connectDataFetchers(UserPage, [ UserActions.loadUsers ])
+);

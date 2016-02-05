@@ -1,6 +1,16 @@
-import React, { Component} from 'react';
+import React, { Component, PropTypes} from 'react';
 
 class TextInput extends Component {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        id: PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.string,
+        onBlur: PropTypes.func,
+        value: PropTypes.string
+    };
+
     render(){
         return (
             <input
@@ -24,16 +34,6 @@ class TextInput extends Component {
             this.props.onBlur(event);
         }
     }
-}
-
-TextInput.propTypes = {
-	name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    id: React.PropTypes.string,
-    className: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    onBlur: React.PropTypes.func,
-    value: React.PropTypes.string
 }
 
 export default TextInput;
