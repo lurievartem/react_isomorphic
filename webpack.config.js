@@ -31,18 +31,7 @@ module.exports = {
                 include: __dirname,
                 loader: 'babel-loader',
                 query: {
-                    presets: ["es2015", "stage-0", "react"],
-                    env: {
-                        development: {
-                            plugins: [["react-transform", {
-                                transforms: [{
-                                    transform: "react-transform-hmr",
-                                    imports: ["react"],
-                                    locals: ["module"]
-                                }]
-                            }]]
-                        }
-                    }
+                    presets: ["react-hmre"]
                 }
             }
         ]
