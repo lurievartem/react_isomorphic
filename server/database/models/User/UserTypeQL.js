@@ -1,12 +1,4 @@
-import {
-    GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLNonNull,
-    GraphQLList,
-    GraphQLID
-} from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
 
 export default new GraphQLObjectType({
     name: 'User',

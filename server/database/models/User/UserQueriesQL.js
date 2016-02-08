@@ -1,13 +1,4 @@
-import {
-    GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLNonNull,
-    GraphQLList,
-    GraphQLID
-} from 'graphql';
-
+import { GraphQLList, GraphQLID } from 'graphql';
 import UserType from './UserTypeQL';
 import User from './UserSchema';
 

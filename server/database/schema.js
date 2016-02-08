@@ -1,16 +1,5 @@
-import {
-    GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLNonNull,
-    GraphQLList,
-    GraphQLID
-} from 'graphql';
-
-import mongoose from 'mongoose';
-import User from './models/User/UserSchema';
-import { UserQueries, UserMutations, UserType } from './models/User/UserQL';
+import { GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { UserQueries, UserMutations } from './models/User/UserQL';
 
 //query (read)
 let RootQuery = new GraphQLObjectType({
@@ -23,7 +12,7 @@ let RootQuery = new GraphQLObjectType({
 
 //mutation (create, update, delete)
 let RootMutation = new GraphQLObjectType({
-    name: "Mutation",
+    name: 'Mutation',
     fields: () => ({
         addUser: UserMutations.addUser,
     })

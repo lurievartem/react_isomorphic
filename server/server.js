@@ -1,5 +1,5 @@
 import path from 'path';
-import express from 'express';
+import Express from 'express';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
@@ -17,12 +17,12 @@ import { Provider } from 'react-redux';
 
 import { server as config } from './config/config';
 import schema from './database/schema';
-import mongo from './database/mongo-db.js';
+import './database/mongo-db.js';
 import routes from '../shared/routes';
 import configureStore from '../shared/store/configureStore';
 import { fetchComponentsData } from './utils';
 
-const app = new express();
+const app = new Express();
 const port = process.env.PORT || config.port || 3000;
 
 //set hot module reloading via webpack
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text({type: 'application/graphql'}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(Express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public/favicon.ico')));
 
 app.post('/graphql', (req, res) => {
