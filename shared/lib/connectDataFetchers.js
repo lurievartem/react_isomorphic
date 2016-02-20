@@ -7,10 +7,10 @@ export default function connectDataFetchers(MainComponent, actionCreators){
         static propTypes = {
             dispatch: PropTypes.func,
             params: PropTypes.object,
-            location: PropTypes.object
         };
 
         static fetchData(dispatch, params = {}, query = {}){
+            console.log(params)
             return Promise.all(
                 actionCreators.map(actionCreator => dispatch(actionCreator(params, query)))
             );
@@ -25,8 +25,7 @@ export default function connectDataFetchers(MainComponent, actionCreators){
         componentDidMount(){
             DataFetchersWrapper.fetchData(
                 this.props.dispatch,
-                this.props.params,
-                this.props.location.query
+                this.props.params
             );
         }
     }

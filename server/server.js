@@ -5,30 +5,35 @@ import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
 import { graphql } from 'graphql';
 
-import webpack from 'webpack'
-import webpackDevMiddleware from 'webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
-import webpackConfig from '../webpack.config'
+// Webpack Requirements
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackConfig from '../webpack.config.dev';
 
-import React from 'react';
-import { RoutingContext, match } from 'react-router';
-import { renderToString } from 'react-dom/server';
+// React And Redux Setup
+import configureStore from '../shared/store/configureStore';
 import { Provider } from 'react-redux';
+import React from 'react';
+import { RouterContext, match } from 'react-router';
+import { renderToString } from 'react-dom/server';
 
-import { server as config } from './config/config';
+// Import required modules
+import { server as config } from '../config/server';
 import schema from './database/schema';
 import './database/mongo-db.js';
 import routes from '../shared/routes';
-import configureStore from '../shared/store/configureStore';
 import { fetchComponentsData } from './utils';
 
 const app = new Express();
 const port = process.env.PORT || config.port || 3000;
 
 //set hot module reloading via webpack
-const compiler = webpack(webpackConfig)
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
-app.use(webpackHotMiddleware(compiler))
+if (process.env.NODE_ENV !== 'production') {
+    const compiler = webpack(webpackConfig);
+    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
+    app.use(webpackHotMiddleware(compiler));
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,7 +56,7 @@ app.listen(port, (error) => {
   } else {
     console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
   }
-})
+});
 
 function handleRender(req, res){
     const initialState = { };
@@ -69,7 +74,7 @@ function handleRender(req, res){
         function renderView(){
             const html = renderToString(
                 <Provider store={store}>
-                    <RoutingContext {...renderProps}/>
+                    <RouterContext {...renderProps}/>
                 </Provider>
             );
 
@@ -90,12 +95,16 @@ function handleRender(req, res){
 }
 
 function renderFullPage(html, initialState){
-    const HTML = `
+    const cssPath = "/static/main.css";
+    return `
         <!doctype html>
         <html>
             <head>
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>Redux Universal Example</title>
-                <link rel="stylesheet" href="/static/main.css">
+                <link rel="stylesheet" href=${cssPath}">
             </head>
             <body>
                 <div id="app">${html}</div>
@@ -106,6 +115,4 @@ function renderFullPage(html, initialState){
             </body>
         </html>
     `;
-
-    return HTML;
 }

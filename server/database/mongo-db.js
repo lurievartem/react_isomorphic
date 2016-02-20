@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { database as config } from '../config/config'
+import { database as config } from '../../config/server'
 
 mongoose.connect(config.url, config.options);
 const db = mongoose.connection;

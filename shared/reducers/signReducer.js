@@ -1,9 +1,6 @@
 import { CREATE_USER } from '../actions/SignActions';
 
-let user = {
-    firstName: '',
-    lastName: ''
-}
+let user = {}
 
 export default function sign(state = user, action) {
     switch (action.type){

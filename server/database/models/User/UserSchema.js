@@ -5,7 +5,11 @@ const UserSchema = new Schema({
     id: { type: String, required: true, unique: true, index: true, default: mongoose.Types.ObjectId},
     username: { type: String, required: true, unique: true},
     password: { type: String, required: true },
-    name: { type: String }
+    name: { type: String, required: true },
+    lastname: { type: String, required: true },
+    gender: { type: Number, required: true },
+    birthday: { type: Date, required: true },
+    logo: { type: String }
 })
 
 UserSchema.set('toJSON', { getters: true });
@@ -19,7 +23,7 @@ User.getUserByPosition = (root, {id}) => {
     });
 };
 
-User.updateUser = (user) => {
+User.addUser = (user) => {
     return new Promise((resolve, reject) => {
         user.save((err, res) => {
             err ? reject(err): resolve(res);

@@ -1,28 +1,29 @@
-var path = require('path');
 var webpack = require('webpack');
+var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    devtool: 'inline-source-map',
-    entry: [
-        'webpack-hot-middleware/client',
-        './client/index.js'
-    ],
+    devtool: 'source-map',
+    entry: path.join(__dirname, '/client/index.js'),
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, '/public/static/'),
         filename: 'bundle.js',
         publicPath: '/static/'
     },
+
     plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             "process.env": {
                 BROWSER: JSON.stringify(true)
             }
         }),
-        new ExtractTextPlugin("[name].css"),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new ExtractTextPlugin("[name].css")
     ],
     module: {
         loaders: [

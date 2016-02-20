@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLString, GraphQLInt, GraphQLNonNull } from 'graphql';
 import UserType from './UserTypeQL';
 import User from './UserSchema';
 
@@ -17,16 +17,28 @@ export default {
             name: {
                 name: 'name',
                 type: GraphQLString
+            },
+            lastname: {
+                name: 'lastname',
+                type: GraphQLString
+            },
+            logo: {
+                name: 'logo',
+                type: GraphQLString
+            },
+            gender: {
+                name: 'gender',
+                type: GraphQLInt
+            },
+            birthday: {
+                name: 'birthday',
+                type: GraphQLString
             }
         },
-        resolve: (root, {username, password, name}) => {
-            var newUser = new User({username: username, password: password, name: name});
-
-            return new Promise((resolve, reject) => {
-                newUser.save((err, res) => {
-                    err ? reject(err): resolve(res);
-                });
-            });
+        resolve: (root, ...theArgs) => {
+            debugger //convert string to date
+            var newUser = new User(theArgs);
+            return User.addUser(newUser);
         }
     }
 };
