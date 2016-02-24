@@ -10,7 +10,6 @@ export default function connectDataFetchers(MainComponent, actionCreators){
         };
 
         static fetchData(dispatch, params = {}, query = {}){
-            console.log(params)
             return Promise.all(
                 actionCreators.map(actionCreator => dispatch(actionCreator(params, query)))
             );
@@ -29,7 +28,6 @@ export default function connectDataFetchers(MainComponent, actionCreators){
             );
         }
     }
-
 
     return DataFetchersWrapper;
 }
