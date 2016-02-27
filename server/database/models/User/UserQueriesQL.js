@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLID } from 'graphql';
+import { GraphQLList, GraphQLString } from 'graphql';
 import UserType from './UserTypeQL';
 import User from './UserSchema';
 
@@ -8,12 +8,15 @@ export default {
         resolve: User.getListOfUsers
     },
     user: {
-        type: UserType,
+        type: new GraphQLList(UserType),
         args: {
-            id: {
-                type: GraphQLID
+            username:{
+                type: GraphQLString
+            },
+            email: {
+                type: GraphQLString
             }
         },
-        resolve: User.getUserByPosition
+        resolve: User.getUserByData
     }
 };

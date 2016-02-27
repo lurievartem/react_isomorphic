@@ -6,7 +6,6 @@ export function createValidator(rules){
         Object.keys(rules).forEach(key =>{
             const fieldRules = [].concat(rules[key]);
             fieldRules.some((rule) => {
-                debugger
                 const error = rule(data[key], data);
                 if(error){
                     errors[key] = error;

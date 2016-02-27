@@ -1,9 +1,8 @@
 import fetch from 'isomorphic-fetch';
-
-const url = 'http://localhost:3000/graphql';
+import { api } from '../../config/server';
 
 export default (queryString) => {
-    return fetch(url, {
+    return fetch(api.url, {
         method: 'post',
         headers: {
             'Content-type': 'application/graphql'

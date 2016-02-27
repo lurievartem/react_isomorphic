@@ -10,6 +10,10 @@ export default {
                 name: 'username',
                 type: new GraphQLNonNull(GraphQLString)
             },
+            email: {
+                name: 'email',
+                type: new GraphQLNonNull(GraphQLString)
+            },
             password: {
                 name: 'password',
                 type: new GraphQLNonNull(GraphQLString)
@@ -35,9 +39,8 @@ export default {
                 type: GraphQLString
             }
         },
-        resolve: (root, ...theArgs) => {
-            debugger //convert string to date
-            var newUser = new User(theArgs);
+        resolve: (root, data) => {
+            var newUser = new User(data);
             return User.addUser(newUser);
         }
     }

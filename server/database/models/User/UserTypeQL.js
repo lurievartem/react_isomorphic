@@ -10,6 +10,9 @@ export default new GraphQLObjectType({
         username: {
             type: GraphQLString
         },
+        email:{
+            type: GraphQLString
+        },
         password: {
             type: GraphQLString
         },
@@ -19,13 +22,13 @@ export default new GraphQLObjectType({
         lastname: {
             type: GraphQLString
         },
-        logo: {
-            type: GraphQLString
-        },
         gender: {
             type: GraphQLInt
         },
         birthday: {
+            type: GraphQLString
+        },
+        logo: {
             type: GraphQLString
         }
     })
