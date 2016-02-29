@@ -1,27 +1,43 @@
-import { createValidator, required, maxLength, email } from '../../lib/validator';
+import { createValidator, required, maxLength, minLength, match, email, password } from '../../lib/validator';
 import api from '../../api/';
 
 export const validateSignUpFormSync = createValidator({
-    firstName: [required, maxLength(10)]
+    username: [required, maxLength(10)],
+    email: [required, email],
+    password: [required, minLength(5), match('confirmPassword')],
+    password: [required, minLength(5)],
+    name: [required, minLength(2)],
+    lastname: [required, minLength(2)],
+    gender: [required],
+    birthday: [],
+    logo: []
 });
 
 export function validateSignUpFormAsync(data){
-    data.email = 'freek@i.ua';
-    data.firstName = 'second';
     const param = {
-        username: data.firstName && `username: \"${data.firstName}\"`,
-        email: data.email && `email: \"${data.email}\"`
+        username: `\"${data.username}\"`,
+        email: `\"${data.email}\"`
     };
 
     return new Promise((resolve, reject) => {
         api.users.request('getUser', param)
         .then((response) => {
             if(response.errors) reject();
+            return response.data
+        })
+        .then((data) => {
 
-            console.log(response.data);
+            if(data.email && data.email.length){
+                reject({email: 'Already registered'});
+            }
+
+            if(data.username && data.username.length){
+                reject({username: 'Already taken'})
+            }
+
             resolve();
-
-        }).catch((error) => {
+        })
+        .catch((error) => {
             reject();
         })
     });

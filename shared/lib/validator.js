@@ -50,7 +50,13 @@ export function match(field){
 }
 
 export function email(value) {
-  if (!isEmpty(value) && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+  if (!isEmpty(value) && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)){
     return 'Invalid email address';
   }
+}
+
+export function password(value){
+    if(!isEmpty(value) && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)){
+        return 'Password invalid'
+    }
 }

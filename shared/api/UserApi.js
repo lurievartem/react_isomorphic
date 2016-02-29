@@ -31,7 +31,7 @@ export default class UserApi extends Base{
                 Object.keys(data).forEach((key) => {
                     if(data[key] !== undefined){
                         child += `
-                            user(${data[key]}){
+                            ${key}: user(${key}: ${data[key]}){
                                 ...UserFragment
                             }
                         `;

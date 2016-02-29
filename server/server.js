@@ -48,6 +48,13 @@ app.post('/graphql', (req, res) => {
             res.send(result);
         });
 });
+
+app.use((req, res, next) => {
+    GLOBAL.navigator = {
+        userAgent: req.headers['user-agent']
+    }
+    next();
+});
 app.use(handleRender);
 
 app.listen(port, (error) => {
@@ -104,6 +111,7 @@ function renderFullPage(html, initialState){
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>Redux Universal Example</title>
+                <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
                 <link rel="stylesheet" href=${cssPath}">
             </head>
             <body>
