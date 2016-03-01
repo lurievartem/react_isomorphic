@@ -2,13 +2,13 @@ import { createValidator, required, maxLength, minLength, match, email, password
 import api from '../../api/';
 
 export const validateSignUpFormSync = createValidator({
-    username: [required, maxLength(10)],
+    username: [required, minLength(3), maxLength(10)],
     email: [required, email],
-    password: [required, minLength(5), match('confirmPassword')],
-    password: [required, minLength(5)],
+    password: [required, minLength(5), password],
+    confirmPassword: [required, minLength(5), password, match('confirmPassword')],
     name: [required, minLength(2)],
     lastname: [required, minLength(2)],
-    gender: [required],
+    gender: [],
     birthday: [],
     logo: []
 });
@@ -38,7 +38,7 @@ export function validateSignUpFormAsync(data){
             resolve();
         })
         .catch((error) => {
-            reject();
+            reject(error);
         })
     });
 };
