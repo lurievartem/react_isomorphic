@@ -20,28 +20,13 @@ class SignUpForm extends Component{
         dispatch: PropTypes.func.isRequired,
         fields: PropTypes.object.isRequired,
         handleSubmit: PropTypes.func.isRequired,
-        valid: PropTypes.bool.isRequired
+        valid: PropTypes.bool.isRequired,
+        handleCancel: PropTypes.func.isRequired,
+        handleSubmit: PropTypes.func.isRequired
     };
-
-    static contextTypes = {
-        router: PropTypes.object.isRequired
-    };
-
-    submitForm(data){
-        console.log(JSON.stringify(data));
-        //this.context.router.push('/');
-    }
-
-    cancel(event){
-        event.preventDefault();
-        event.stopPropagation();
-        this.context.router.push('/');
-    }
 
     render(){
-        const { fields: { username, email, password, confirmPassword, name, lastname, gender, birthday, logo } } = this.props;
-        const cancel = (event) => { this.cancel(event) };
-        const handleSubmit = this.props.handleSubmit(this.submitForm.bind(this));
+        const { fields: { username, email, password, confirmPassword, name, lastname, gender, birthday, logo }, handleCancel, handleSubmit } = this.props;
         const maxDate = new Date();
 
         let minDate = new Date();
@@ -90,7 +75,7 @@ class SignUpForm extends Component{
                         fileAreaClassName="file-reader"
                     />
                 </FormField>
-                <FlatButton label="Cancel"  onClick={cancel} />
+                <FlatButton label="Cancel"  onClick={handleCancel} />
                 <FlatButton label="Save"  onClick={handleSubmit} />
             </form>
         );

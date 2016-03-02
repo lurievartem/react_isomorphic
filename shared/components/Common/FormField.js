@@ -28,7 +28,7 @@ class FormField extends Component{
                             return (
                                 <div>
                                     {child}
-                                    {child.props.touched && child.props.error && <div className={this.props.errorClassName}>{child.props.error}</div>}
+                                    {child.props.error && child.props.touched && <div className={this.props.errorClassName}>{child.props.error}</div>}
                                 </div>
                             )
                         } else{
