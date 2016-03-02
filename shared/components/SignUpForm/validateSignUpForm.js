@@ -21,12 +21,7 @@ export function validateSignUpFormAsync(data){
 
     return new Promise((resolve, reject) => {
         api.users.request('getUser', param)
-        .then((response) => {
-            if(response.errors) reject();
-            return response.data
-        })
         .then((data) => {
-
             if(data.email && data.email.length){
                 reject({email: 'Already registered'});
             }

@@ -4,7 +4,7 @@ import userReducer from './userReducer';
 
 const rootReducer = combineReducers({
     form: formReducer,
-    userReducer
+    user: userReducer
 });
 
 export default rootReducer;

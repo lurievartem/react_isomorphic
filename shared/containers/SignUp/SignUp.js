@@ -3,8 +3,23 @@ import {connect} from 'react-redux';
 import { SignUpForm } from '../../components';
 import { saveUser } from '../../actions/UserActions';
 
-@connect(()=>({}), {saveUser})
+@connect(
+    (state)=> {
+        return {
+            user: state.user
+        }
+    },
+    {saveUser}
+)
 class SignUp extends Component{
+    constructor(props){
+        super(props);
+        console.log(this.props.user);
+        if(this.props.user && this.props.user.isSaving && this.props.user.isSavingError){
+            this.context.router.push('/');
+        }
+    }
+
     static contextTypes = {
         router: PropTypes.object.isRequired
     };
@@ -12,7 +27,6 @@ class SignUp extends Component{
     submit(data){
         console.log(JSON.stringify(data));
         this.props.saveUser(data);
-        this.context.router.push('/');
     }
 
     cancel(event){

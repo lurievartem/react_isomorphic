@@ -9,13 +9,17 @@ export default (queryString) => {
         },
         body: queryString
     }).then(res => {
-        if(res.status >= 400){
-            throw new Error('Bad response from server');
+        const json = res.json();
+        if(res.status >= 200 && res.status < 300 ){
+            return json;
+        } else{
+            return json.then(err => {throw err;});
         }
-
-        return res.json();
-    }).then(data => {
-        console.log('graphQLApi data:', data);
-        return (data ? data : Promise.reject(data.error));
+    }).then(res => {
+        if(res && res.data){
+            return res.data;
+        } else{
+            throw res.errors;
+        }
     });
 };
