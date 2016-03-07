@@ -3,7 +3,7 @@ import Express from 'express';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
-import { graphql } from 'graphql';
+import graphqlHTTP from 'express-graphql';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -42,12 +42,10 @@ app.use(cookieParser());
 app.use(Express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public/favicon.ico')));
 
-app.post('/graphql', (req, res) => {
-    graphql(schema, req.body)
-        .then((result) => {
-            res.send(result);
-        });
-});
+app.use('/graphql', graphqlHTTP(req => ({
+    schema,
+    pretty: true
+})));
 
 app.use((req, res, next) => {
     GLOBAL.navigator = {

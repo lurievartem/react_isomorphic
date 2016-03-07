@@ -15,8 +15,8 @@ export const validateSignUpFormSync = createValidator({
 
 export function validateSignUpFormAsync(data){
     const param = {
-        username: `\"${data.username}\"`,
-        email: `\"${data.email}\"`
+        username: data.username,
+        email: data.email
     };
 
     return new Promise((resolve, reject) => {

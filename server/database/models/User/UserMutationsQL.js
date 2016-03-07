@@ -1,6 +1,7 @@
-import { GraphQLString, GraphQLInt, GraphQLNonNull } from 'graphql';
+import { GraphQLString, GraphQLNonNull } from 'graphql';
 import UserType from './UserTypeQL';
 import User from './UserSchema';
+import { validate, morph } from './UserUtils';
 
 export default {
     addUser: {
@@ -18,13 +19,17 @@ export default {
                 name: 'password',
                 type: new GraphQLNonNull(GraphQLString)
             },
+            confirmPassword:{
+                name: 'confirmPassword',
+                type: new GraphQLNonNull(GraphQLString)
+            },
             name: {
                 name: 'name',
-                type: GraphQLString
+                type: new GraphQLNonNull(GraphQLString)
             },
             lastname: {
                 name: 'lastname',
-                type: GraphQLString
+                type: new GraphQLNonNull(GraphQLString)
             },
             logo: {
                 name: 'logo',
@@ -32,7 +37,7 @@ export default {
             },
             gender: {
                 name: 'gender',
-                type: GraphQLInt
+                type: GraphQLString,
             },
             birthday: {
                 name: 'birthday',
@@ -40,8 +45,13 @@ export default {
             }
         },
         resolve: (root, data) => {
-            var newUser = new User(data);
-            return User.addUser(newUser);
+            data = morph(data);
+
+            if(validate(data)){
+                return User.addUser(new User(data));
+            } else{
+                throw new Error('Wrong data');
+            }
         }
     }
 };

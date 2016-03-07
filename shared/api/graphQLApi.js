@@ -5,7 +5,7 @@ export default (queryString) => {
     return fetch(api.url, {
         method: 'post',
         headers: {
-            'Content-type': 'application/graphql'
+            'Content-Type': 'application/graphql'
         },
         body: queryString
     }).then(res => {
@@ -16,10 +16,11 @@ export default (queryString) => {
             return json.then(err => {throw err;});
         }
     }).then(res => {
-        if(res && res.data){
-            return res.data;
-        } else{
+        console.log(res);
+        if(res.errors){
             throw res.errors;
+        } else{
+            return res.data;
         }
     });
 };

@@ -13,7 +13,6 @@ export function loadUsers(){
 export function saveUser(data){
     return {
         type: SAVE_USER,
-        data: data,
-        promise: api.users.request('save')
+        promise: api.users.request('save', data)
     }
 }

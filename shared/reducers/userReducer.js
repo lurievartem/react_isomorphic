@@ -5,23 +5,11 @@ export default function userReducer(state = {}, action) {
         case GET_USERS:
             return Object.assign({}, state, action.res.data);
         case SAVE_USER:
-            const requestSave = {
-                isSaving: true,
-                isSavingError: false
-            };
-            return Object.assign({}, state, requestSave);
-        case SAVE_USER + 'SUCCESS':
-            const successSave = {
-                isSaving: false,
-                isSavingError: false
-            };
-            return Object.assign({}, state, successSave, action.res)
-        case SAVE_USER + 'FAILURE':
-            const failureState = {
-                isSaving: false,
-                isSavingError: true
-            };
-            return Object.assign({}, state, failureState);
+            return Object.assign({}, state);
+        case SAVE_USER + '_SUCCESS':
+            return Object.assign({}, state, { isSave: true });
+        case SAVE_USER + '_FAILURE':
+            return Object.assign({}, state, { isSave: false });
         default:
             return state;
     }

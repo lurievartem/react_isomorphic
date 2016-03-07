@@ -31,7 +31,7 @@ export default class UserApi extends Base{
                 Object.keys(data).forEach((key) => {
                     if(data[key] !== undefined){
                         child += `
-                            ${key}: user(${key}: ${data[key]}){
+                            ${key}: user(${key}: \"${data[key]}\"){
                                 ...UserFragment
                             }
                         `;
@@ -46,9 +46,18 @@ export default class UserApi extends Base{
 
                 break;
             case('save'):
+                let user = '';
+                Object.keys(data).forEach((key) => {
+                    if(data[key] !== undefined){
+                        user += `
+                            ${key}: \"${data[key]}\"
+                        `;
+                    }
+                });
+
                 query = `
                     mutation RootMutation{
-                        addUser(data){
+                        addUser(${user}){
                             ...UserFragment
                         }
                     }

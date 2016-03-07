@@ -12,17 +12,21 @@ import { saveUser } from '../../actions/UserActions';
     {saveUser}
 )
 class SignUp extends Component{
-    constructor(props){
-        super(props);
-        console.log(this.props.user);
-        if(this.props.user && this.props.user.isSaving && this.props.user.isSavingError){
-            this.context.router.push('/');
-        }
-    }
-
     static contextTypes = {
         router: PropTypes.object.isRequired
     };
+
+    componentDidUpdate(){
+        if(this.props.user.isSave != undefined){
+            if(this.props.user.isSave){
+                this.context.router.push('/');
+                return false
+            } else{
+                console.log('error when save');
+            }
+        }
+        return true;
+    }
 
     submit(data){
         console.log(JSON.stringify(data));
