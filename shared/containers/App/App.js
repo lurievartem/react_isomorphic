@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { NavBar, FooterBar }  from '../../components';
+import { Navigation }  from '../.';
 
 class App extends Component{
     static propTypes = {
@@ -9,14 +9,15 @@ class App extends Component{
     render(){
         return (
             <div>
-                <NavBar/>
+                <Navigation/>
                 <div>
                     { this.props.children }
                 </div>
-                <FooterBar/>
             </div>
         );
     }
 }
+
+
 
 export default App;
