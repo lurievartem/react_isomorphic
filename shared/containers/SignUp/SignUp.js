@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import {connect} from 'react-redux';
-import { SignUpForm } from '../../components';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
+import { SignUpForm } from '../../components/';
 import { saveUser } from '../../actions/UserActions';
+import { validateSignUpFormSync, validateSignUpFormAsync } from './validate';
 
 @connect(
     (state)=> {
@@ -11,7 +13,18 @@ import { saveUser } from '../../actions/UserActions';
     },
     {saveUser}
 )
+@reduxForm({
+    form: 'SignUp',
+    fields: ['username', 'email', 'password', 'confirmPassword', 'name', 'lastname', 'gender', 'birthday', 'logo'],
+    validate: validateSignUpFormSync,
+    asyncValidate: validateSignUpFormAsync
+})
 class SignUp extends Component{
+    static propTypes = {
+        handleSubmit: PropTypes.func.isRequired,
+        fields: PropTypes.object.isRequired
+    };
+
     static contextTypes = {
         router: PropTypes.object.isRequired
     };
@@ -38,11 +51,13 @@ class SignUp extends Component{
     }
 
     render(){
+        const { handleSubmit, fields } = this.props;
         const cancel = (event) => { this.cancel(event) };
         const submit = (data) => { this.submit(data) };
+
         return (
             <div>
-                <SignUpForm handleCancel={cancel} onSubmit={submit}/>
+                <SignUpForm onCancel={cancel} onSubmit={handleSubmit(submit)} fields={fields}/>
             </div>
         );
     }

@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm } from 'redux-form';
-import { validateSignUpFormSync, validateSignUpFormAsync } from './validateSignUpForm';
 import TextField from 'material-ui/lib/TextField';
 import RadioButton from 'material-ui/lib/radio-button';
 import RadioButtonGroup from 'material-ui/lib/radio-button-group';
@@ -9,24 +7,16 @@ import FlatButton from 'material-ui/lib/flat-button';
 import FileReader from '../Common/FileReader';
 import FormField from '../Common/FormField';
 
-@reduxForm({
-    form: 'SignUp',
-    fields: ['username', 'email', 'password', 'confirmPassword', 'name', 'lastname', 'gender', 'birthday', 'logo'],
-    validate: validateSignUpFormSync,
-    asyncValidate: validateSignUpFormAsync
-})
+
 class SignUpForm extends Component{
     static propTypes = {
-        dispatch: PropTypes.func.isRequired,
         fields: PropTypes.object.isRequired,
-        handleSubmit: PropTypes.func.isRequired,
-        valid: PropTypes.bool.isRequired,
-        handleCancel: PropTypes.func.isRequired,
-        handleSubmit: PropTypes.func.isRequired
+        onCancel: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired
     };
 
     render(){
-        const { fields: { username, email, password, confirmPassword, name, lastname, gender, birthday, logo }, handleCancel, handleSubmit } = this.props;
+        const { fields: { username, email, password, confirmPassword, name, lastname, gender, birthday, logo }, onCancel, onSubmit } = this.props;
         const maxDate = new Date();
 
         let minDate = new Date();
@@ -75,8 +65,8 @@ class SignUpForm extends Component{
                         fileAreaClassName="file-reader"
                     />
                 </FormField>
-                <FlatButton label="Cancel"  onClick={handleCancel} />
-                <FlatButton label="Save"  onClick={handleSubmit} />
+                <FlatButton label="Cancel"  onClick={onCancel} />
+                <FlatButton label="Save"  onClick={onSubmit} />
             </form>
         );
     }
