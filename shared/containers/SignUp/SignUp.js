@@ -16,16 +16,14 @@ class SignUp extends Component{
         router: PropTypes.object.isRequired
     };
 
-    componentDidUpdate(){
-        if(this.props.user.isSave != undefined){
-            if(this.props.user.isSave){
+    componentWillReceiveProps(nextProp){
+        if(nextProp.user.isSave != undefined){
+            if(nextProp.user.isSave){
                 this.context.router.push('/');
-                return false
             } else{
                 console.log('error when save');
             }
         }
-        return true;
     }
 
     submit(data){
