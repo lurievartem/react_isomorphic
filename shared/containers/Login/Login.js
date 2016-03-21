@@ -1,26 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { connect} from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { reduxForm } from 'redux-form';
-import { LoginForm, Logout } from '../../components';
-import { logIn, logOut } from '../../actions/LoginActions';
+import { reduxForm, initialize } from 'redux-form';
+import { LoginForm } from '../../components';
 import { validateSignUpFormSync } from './validate';
 
-
-@connect(
-    (state)=> {
-        return {
-            auth: state.auth
-        }
-    },
-    (dispatch)=> {
-        return {
-            login: bindActionCreators(logIn, dispatch),
-            logout: bindActionCreators(logOut, dispatch),
-            ...dispatch
-        }
-    }
-)
 @reduxForm({
     form: 'LogIn',
     fields: ['username', 'password'],
@@ -28,24 +10,38 @@ import { validateSignUpFormSync } from './validate';
 })
 class Login extends Component{
     static propTypes = {
+        auth: PropTypes.object.isRequired,
+        onLogin: PropTypes.func.isRequired,
         handleSubmit: PropTypes.func.isRequired,
         fields: PropTypes.object.isRequired
     };
 
+    componentWillReceiveProps(nextProp){
+        if(nextProp.auth.isSave != undefined){
+            if(nextProp.auth.isSave){
+                this.context.router.push('/');
+            } else{
+                console.log('error when save');
+            }
+        }
+    }
+
     render(){
-        const { auth: { isAuthenticated }, handleSubmit, fields } = this.props;
-        const login = (data) => { this.props.login(data) };
-        const logout = () => { this.props.logout() };
+        const { handleSubmit, fields } = this.props;
+        const login = this.login.bind(this);
 
         return(
             <div className="navbar-form">
-                { isAuthenticated
-                    ? <Login onSubmit={handleSubmit(login)} fields={fields}/>
-                    : <Logout onLogout = {logout} />
-                }
+                <LoginForm onSubmit={handleSubmit(login)} fields={fields} open={}/>
             </div>
         );
     }
+
+    login(data){
+        this.props.onLogin(data);
+        //this.props.dispatch(initialize('LogIn', {}, ['username', 'password']));
+    }
+
 }
 
 export default Login;

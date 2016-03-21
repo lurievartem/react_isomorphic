@@ -3,7 +3,7 @@ import Base from './Base';
 export default class UserApi extends Base{
     request(action, data){
         let query = '';
-        const userFragment = `
+        let userFragment = `
             fragment UserFragment on User{
                 username
                 email

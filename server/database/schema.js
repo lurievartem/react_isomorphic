@@ -6,7 +6,8 @@ let RootQuery = new GraphQLObjectType({
     name: 'Query',
     fields: () => ({
         user: UserQueries.user,
-        users: UserQueries.users
+        users: UserQueries.users,
+        login: UserQueries.login
     })
 });
 

@@ -1,7 +1,6 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
 import UserType from './UserTypeQL';
 import User from './UserSchema';
-import { validate, morph } from './UserUtils';
 
 export default {
     addUser: {
@@ -45,13 +44,7 @@ export default {
             }
         },
         resolve: (root, data) => {
-            data = morph(data);
-
-            if(validate(data)){
-                return User.addUser(new User(data));
-            } else{
-                throw new Error('Wrong data');
-            }
+            return User.addUser(data);
         }
     }
 };

@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { NavBar }  from '../../components';
-import { Login } from '../.';
+import { Auth } from '../.';
 
 class Navigation extends Component{
     render(){
         return (
             <nav className="navbar navbar-default">
                 <NavBar/>
-                <Login/>
+                <Auth/>
             </nav>
         );
     }

@@ -2,7 +2,6 @@ import path from 'path';
 import Express from 'express';
 import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
-import cookieParser from 'cookie-parser';
 import graphqlHTTP from 'express-graphql';
 
 // Webpack Requirements
@@ -23,13 +22,13 @@ import { server as config } from '../config/server';
 import schema from './database/schema';
 import './database/mongo-db.js';
 import routes from '../shared/routes';
-import { fetchComponentsData } from './utils';
+import { fetchComponentsData } from './service/utils';
 
 const app = new Express();
 const port = process.env.PORT || config.port || 3000;
 
 //set hot module reloading via webpack
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production'){
     const compiler = webpack(webpackConfig);
     app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
     app.use(webpackHotMiddleware(compiler));
@@ -38,12 +37,12 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text({type: 'application/graphql'}));
-app.use(cookieParser());
 app.use(Express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public/favicon.ico')));
 
 app.use('/graphql', graphqlHTTP(req => ({
     schema,
+    rootValue: { token: req.headers['x-access-token'] },
     pretty: true
 })));
 
@@ -54,6 +53,28 @@ app.use((req, res, next) => {
     next();
 });
 app.use(handleRender);
+
+
+// development error handler, will print stacktrace
+if (app.get('env') === 'development'){
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
+// production error handler, no stacktraces leaked to user
+app.use(function(err, req, res, next){
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+
 
 app.listen(port, (error) => {
   if (error) {

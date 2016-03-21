@@ -1,11 +1,16 @@
 import { GraphQLList, GraphQLString } from 'graphql';
+import { check } from '../../../service/jwt-auth';
 import UserType from './UserTypeQL';
+import TokenType from './TokenTypeQL';
 import User from './UserSchema';
 
 export default {
     users: {
         type: new GraphQLList(UserType),
-        resolve: User.getListOfUsers
+        resolve: ({ token }) => {
+            if(check(token))
+                return User.getListOfUsers();
+        }
     },
     user: {
         type: new GraphQLList(UserType),
@@ -17,6 +22,23 @@ export default {
                 type: GraphQLString
             }
         },
-        resolve: User.getUserByData
+        resolve: ({ token }, data) => {
+            if(check(token))
+                return User.getUserByData(data);
+        }
+    },
+    login: {
+        type: TokenType,
+        args: {
+            username:{
+                type: GraphQLString
+            },
+            password:{
+                type: GraphQLString
+            }
+        },
+        resolve: (data) => {
+            return User.login(data);
+        }
     }
 };

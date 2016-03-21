@@ -1,5 +1,9 @@
 const isEmpty = value => value === undefined || value === null || value === '';
 
+function isValid(errors){
+    return Object.keys(errors).length;
+}
+
 export function createValidator(rules){
     return (data={}) => {
         const errors = {};

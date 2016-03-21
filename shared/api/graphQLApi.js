@@ -5,6 +5,7 @@ export default (queryString) => {
     return fetch(api.url, {
         method: 'post',
         headers: {
+            'x-access-token':  localStorage.getItem('idToken'),
             'Content-Type': 'application/graphql'
         },
         body: queryString
