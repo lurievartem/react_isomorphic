@@ -50,10 +50,10 @@ User.getListOfUsers = () => {
 
 User.login = (userData) => {
     return new Promise((resolve, reject) => {
-        if(validateUserName) reject(msg["5"]);
+        if(validateUserName(userData)) reject(msg["5"]);
 
         User.findOne({username: userData.username}).exec((err, res) => {
-            if(err && !res) reject(msg["1"]);
+            if(err || !res) reject(msg["1"]);
 
             if(!comparePassword(userData.password, res.password)) reject(msg["2"]);
 

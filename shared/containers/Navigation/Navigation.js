@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { NavBar }  from '../../components';
-import { Auth } from '../.';
+import { Auth } from '../';
 
 class Navigation extends Component{
     render(){

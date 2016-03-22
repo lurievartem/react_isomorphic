@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Navigation }  from '../.';
+import { Navigation, ModalRoot }  from '../';
 
 class App extends Component{
     static propTypes = {
@@ -9,6 +9,7 @@ class App extends Component{
     render(){
         return (
             <div>
+                <ModalRoot/>
                 <Navigation/>
                 <div>
                     { this.props.children }

@@ -37,7 +37,7 @@ export default {
                 type: GraphQLString
             }
         },
-        resolve: (data) => {
+        resolve: (root, data) => {
             return User.login(data);
         }
     }

@@ -19,8 +19,8 @@ export function validateUser(data){
     return isValid(errors(data));
 }
 
-export function validateUserName(name){
+export function validateUserName(data){
     const errors = createValidator({ username: [required, minLength(3), maxLength(10)]});
-    return isValid(errors(name));
+    return isValid(errors(data));
 }
 
