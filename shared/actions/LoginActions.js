@@ -9,13 +9,13 @@ export function logIn(credentials){
         type: LOGIN,
         promise: api.login.request('logIn', credentials),
         successFn: (res) => {
-            localStorage.setItem('idToken', res.login.token);
+            sessionStorage.setItem('idToken', res.login.token);
         }
     }
 }
 
 export function logOut(data){
-    localStorage.removeItem('idToken');
+    sessionStorage.removeItem('idToken');
     return {
         type: LOGOUT
     }

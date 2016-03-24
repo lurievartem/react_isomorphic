@@ -18,6 +18,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' )
             }
         }),
+        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
     module: {
