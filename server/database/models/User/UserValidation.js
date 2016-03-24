@@ -2,7 +2,7 @@ import { createValidator, isValid, required, maxLength, minLength, match, email,
 
 export function validateUser(data){
     data.gender = Number(data.gender) || 0;
-    data.birthday = Date.parse(data.birthday);
+    data.birthday = Date.parse(data.birthday) || '';
 
     const errors = createValidator({
         username: [required, minLength(3), maxLength(10)],

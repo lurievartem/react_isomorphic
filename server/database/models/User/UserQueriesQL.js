@@ -22,9 +22,8 @@ export default {
                 type: GraphQLString
             }
         },
-        resolve: ({ token }, data) => {
-            if(check(token))
-                return User.getUserByData(data);
+        resolve: (root, data) => {
+            return User.getUserByData(data);
         }
     },
     login: {

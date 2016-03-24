@@ -20,7 +20,7 @@ class Login extends Component{
     componentWillReceiveProps(nextProp){
         if(nextProp.auth.isSave != undefined){
             if(nextProp.auth.isSave){
-                this.context.router.push('/');
+                this.props.hideModal();
             } else{
                 console.log('error when save');
             }

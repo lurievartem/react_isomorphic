@@ -1,4 +1,4 @@
-import { GET_USERS, SAVE_USER} from '../actions/UserActions';
+import { GET_USERS, SAVE_USER, SAVE_USER_SUCCESS, SAVE_USER_FAILURE} from '../actions/UserActions';
 
 export default function userReducer(state = {}, action) {
     switch (action.type){
@@ -6,9 +6,9 @@ export default function userReducer(state = {}, action) {
             return Object.assign({}, state, action.res.data);
         case SAVE_USER:
             return Object.assign({}, state);
-        case SAVE_USER + '_SUCCESS':
+        case SAVE_USER_SUCCESS:
             return Object.assign({}, state, { isSave: true });
-        case SAVE_USER + '_FAILURE':
+        case SAVE_USER_FAILURE:
             return Object.assign({}, state, { isSave: false });
         default:
             return state;

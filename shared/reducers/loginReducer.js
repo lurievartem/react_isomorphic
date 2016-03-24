@@ -1,13 +1,12 @@
-import { LOGIN, LOGOUT} from '../actions/LoginActions';
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from '../actions/LoginActions';
 
 export default function loginReducer(state = { isAuthenticated: false }, action) {
     switch (action.type){
         case LOGIN:
             return Object.assign({}, state);
-        case LOGIN + '_SUCCESS':
+        case LOGIN_SUCCESS:
             return Object.assign({}, state, { isAuthenticated : true, isSave: true });
-        case LOGIN + '_FAILURE':
-            console.log();
+        case LOGIN_FAILURE:
             return Object.assign({}, state, { isAuthenticated : false, isSave: false });
         case LOGOUT:
             return Object.assign({}, state, { isAuthenticated: false });

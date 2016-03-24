@@ -21,6 +21,7 @@ export default function promiseMiddleware() {
                 return true;
             })
             .catch(error => {
+                console.info(error);
                 if(errorFn && typeof errorFn == "function"){
                     errorFn(error);
                 }

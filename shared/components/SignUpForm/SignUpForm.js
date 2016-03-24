@@ -23,22 +23,22 @@ class SignUpForm extends Component{
         return(
             <form>
                 <FormField>
-                    <TextField {...username}  hintText="Username" />
+                    <TextField {...username} hintText="Username" />
                 </FormField>
                 <FormField>
-                    <TextField {...email}  hintText="Email" />
+                    <TextField {...email} hintText="Email" />
                 </FormField>
                 <FormField>
-                    <TextField {...password}  hintText="Password" type="password" />
+                    <TextField {...password} hintText="Password" type="password" />
                 </FormField>
                 <FormField>
-                    <TextField {...confirmPassword}  hintText="Confirm password" type="password" />
+                    <TextField {...confirmPassword} hintText="Confirm password" type="password" />
                 </FormField>
                 <FormField>
-                    <TextField {...name}  hintText="Name" />
+                    <TextField {...name} hintText="Name" />
                 </FormField>
                 <FormField>
-                    <TextField {...lastname}  hintText="Last Name" />
+                    <TextField {...lastname} hintText="Last Name" />
                 </FormField>
                 <FormField>
                     <RadioButtonGroup name="gender" {...gender} defaultSelected="0" >

@@ -1,10 +1,11 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
 import UserType from './UserTypeQL';
+import TokenType from './TokenTypeQL';
 import User from './UserSchema';
 
 export default {
     addUser: {
-        type: UserType,
+        type: TokenType,
         args: {
             username: {
                 name: 'username',

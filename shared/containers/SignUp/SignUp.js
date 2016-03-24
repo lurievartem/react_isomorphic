@@ -5,8 +5,10 @@ import { reduxForm } from 'redux-form';
 import { SignUpForm } from '../../components/';
 import { validateSignUpFormSync, validateSignUpFormAsync } from './validate';
 import { saveUser } from '../../actions/UserActions';
+import { logInUser } from '../../actions/LoginActions'
 import { hideModal } from '../../actions/ModalActions';
 import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
 
 class SignUp extends Component{
     static propTypes = {
@@ -23,7 +25,8 @@ class SignUp extends Component{
     componentWillReceiveProps(nextProp){
         if(nextProp.user.isSave != undefined){
             if(nextProp.user.isSave){
-                this.context.router.push('/');
+                this.props.logInUser();
+                this.props.hideModal();
             } else{
                 console.log('error when save');
             }
@@ -69,6 +72,7 @@ const enhance = compose(
         dispatch => {
             return bindActionCreators({
                        saveUser: saveUser,
+                       logInUser: logInUser,
                        hideModal: hideModal
                    }, dispatch);
         }

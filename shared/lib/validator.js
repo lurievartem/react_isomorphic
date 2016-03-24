@@ -66,13 +66,13 @@ export function password(value){
 }
 
 export function isDate(value){
-    if(!isEmpty(value) && (value instanceof Date) && (Object.prototype.toString.call(value) === '[object Date]')){
+    if(!isEmpty(value) && !((value instanceof Date) && (Object.prototype.toString.call(value) === '[object Date]'))){
         return 'Not date';
     }
 }
 
 export function isNumber(value){
-    if(!isEmpty(value) && isNaN(parseFloat(value)) && !isFinite(value)){
+    if(!isEmpty(value) && (isNaN(parseFloat(value)) || !isFinite(value))){
         return 'Not number';
     }
 }

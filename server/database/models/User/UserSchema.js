@@ -20,6 +20,14 @@ const UserSchema = new Schema({
 UserSchema.set('toJSON', { getters: true });
 const User = mongoose.model('Users', UserSchema);
 
+User.getListOfUsers = () => {
+    return new Promise((resolve, reject) => {
+        User.find({}).exec((err, res) => {
+            err ? reject(err) : resolve(res);
+        });
+    });
+};
+
 User.getUserByData = (userData) => {
     return new Promise((resolve, reject) => {
         User.find(userData).exec((err, res) => {
@@ -30,32 +38,27 @@ User.getUserByData = (userData) => {
 
 User.addUser = (userData) => {
     return new Promise((resolve, reject) => {
-        if(validateUser(userData)) reject(msg["5"]);
+        if(validateUser(userData)) return reject(msg["5"]);
 
         userData.password = hashPassword(userData.password);
         const user = new User(userData);
-        user.save((err, res) => {
-            err ? reject(err): resolve(res);
+        return user.save().then((res) => {
+            resolve({ token: sign(res) });
+        }, (err) => {
+            reject(err);
         });
     });
 };
 
-User.getListOfUsers = () => {
-    return new Promise((resolve, reject) => {
-        User.find({}).exec((err, res) => {
-            err ? reject(err) : resolve(res);
-        });
-    });
-};
 
 User.login = (userData) => {
     return new Promise((resolve, reject) => {
-        if(validateUserName(userData)) reject(msg["5"]);
+        if(validateUserName(userData)) return reject(msg["5"]);
 
         User.findOne({username: userData.username}).exec((err, res) => {
-            if(err || !res) reject(msg["1"]);
+            if(err || !res) return reject(msg["1"]);
 
-            if(!comparePassword(userData.password, res.password)) reject(msg["2"]);
+            if(!comparePassword(userData.password, res.password)) return reject(msg["2"]);
 
             resolve({ token: sign(res) });
         });

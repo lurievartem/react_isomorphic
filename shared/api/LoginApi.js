@@ -3,7 +3,8 @@ import Base from './Base';
 export default class LoginApi extends Base{
     request(action, data){
         let query = '';
-        let loginFragment = `
+        let child = '';
+        let fragment = `
             fragment LoginFragment on AuthToken{
                 token
             }
@@ -11,7 +12,6 @@ export default class LoginApi extends Base{
 
         switch(action){
             case('logIn'):
-                let child = '';
                 Object.keys(data).forEach((key) => {
                     child += `${key}: \"${data[key]}\",`;
                 });
@@ -29,6 +29,6 @@ export default class LoginApi extends Base{
                 return;
         }
 
-        return this.apiClient(`${query} ${loginFragment}`);
+        return this.apiClient(`${query} ${fragment}`);
     }
 }
