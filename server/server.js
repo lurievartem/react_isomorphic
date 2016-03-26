@@ -10,19 +10,16 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack.config.dev';
 
-// React And Redux Setup
-import configureStore from '../shared/store/configureStore';
-import { Provider } from 'react-redux';
 import React from 'react';
-import { RouterContext, match } from 'react-router';
+import { Provider } from 'react-redux';
+import { match } from 'react-router';
 import { renderToString } from 'react-dom/server';
-
-// Import required modules
+import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
+import configureStore from '../shared/store/configureStore';
 import { server as config } from '../config/server';
 import schema from './database/schema';
 import './database/mongo-db.js';
 import routes from '../shared/routes';
-import { fetchComponentsData } from './service/utils';
 
 const app = new Express();
 const port = process.env.PORT || config.port || 3000;
@@ -53,7 +50,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use(handleRender);
-
 
 // development error handler, will print stacktrace
 if (app.get('env') === 'development'){
@@ -97,26 +93,15 @@ function handleRender(req, res){
             res.status(404).send('Not found');
         }
 
-        function renderView(){
-            const html = renderToString(
-                <Provider store={store}>
-                    <RouterContext {...renderProps}/>
+        loadOnServer(renderProps, store).then(() => {
+            const appHTML = renderToString(
+                <Provider store={store} key="provider">
+                    <ReduxAsyncConnect  {...renderProps}/>
                 </Provider>
             );
 
-            return renderFullPage(html, store.getState());
-        }
-
-        fetchComponentsData(
-            store.dispatch,
-            renderProps.components,
-            renderProps.params,
-            renderProps.location.query
-        )
-        .then(renderView)
-        .then(html => res.end(html))
-        .catch(err => res.end(err.message));
-
+            res.send(renderFullPage(appHTML, store.getState()));
+        })
     });
 }
 

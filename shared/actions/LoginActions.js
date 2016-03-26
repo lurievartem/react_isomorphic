@@ -16,7 +16,7 @@ export function logIn(credentials){
     }
 }
 
-export function logOut(data){
+export function logOut(){
     sessionStorage.removeItem('idToken');
     return {
         type: LOGOUT

@@ -3,6 +3,7 @@ import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
 import promiseMiddleware from '../lib/promiseMiddleware';
 
+
 export default function configureStore(initialState){
     const store = createStore(
         rootReducer,
@@ -11,7 +12,6 @@ export default function configureStore(initialState){
     );
 
     if(module.hot){
-        console.log('hot replacement');
         module.hot.accept('../reducers', () =>{
             const nextRootReducer = require('../reducers').default;
             store.replaceReducer(nextRootReducer);
