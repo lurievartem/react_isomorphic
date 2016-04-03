@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect} from 'react-redux';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 import FlatButton from 'material-ui/lib/flat-button';
 import { Logout } from '../../components';
 import { logOut } from '../../actions/LoginActions';
 import { showModal } from '../../actions/ModalActions';
 
 @connect(
-    state => { return { auth: state.auth } },
+    (state) => { return { auth: state.auth } },
     dispatch => {
         return  bindActionCreators({
                     logout: logOut,
@@ -18,6 +18,7 @@ import { showModal } from '../../actions/ModalActions';
 class Auth extends Component{
     static propTypes = {
         auth: PropTypes.object.isRequired,
+        showModal: PropTypes.func.isRequired,
         logout: PropTypes.func.isRequired
     };
 

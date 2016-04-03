@@ -1,6 +1,6 @@
 import { GET_USERS, SAVE_USER, SAVE_USER_SUCCESS, SAVE_USER_FAILURE} from '../actions/UserActions';
 
-export default function userReducer(state = {}, action) {
+export default (state = {}, action) => {
     switch (action.type){
         case GET_USERS:
             return Object.assign({}, state, action.res.data);

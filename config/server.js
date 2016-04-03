@@ -13,3 +13,8 @@ export const server = {
 export const api = {
     url: 'http://localhost:3000/graphql'
 }
+
+export const assets = {
+    style: "/static/main.css",
+    javascript: "/static/bundle.js"
+}

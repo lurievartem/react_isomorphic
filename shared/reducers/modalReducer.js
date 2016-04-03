@@ -5,7 +5,7 @@ const initialState = {
     modalProps: {}
 }
 
-export default function modalReducer(state = initialState, action) {
+export default (state = initialState, action) => {
     switch (action.type){
         case SHOW_MODAL:
             return {

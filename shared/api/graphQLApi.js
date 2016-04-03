@@ -5,9 +5,9 @@ export default (queryString) => {
     return fetch(api.url, {
         method: 'post',
         headers: {
-            'x-access-token': sessionStorage.getItem('idToken'),
             'Content-Type': 'application/graphql'
         },
+        credentials: 'include',
         body: queryString
     }).then(res => {
         const json = res.json();

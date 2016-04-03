@@ -8,7 +8,7 @@ export default class NavBar extends Component{
                 <IndexLink to="/" className="navbar-brand">Home</IndexLink>
                 <ul className="nav navbar-nav">
                     <li><Link to="about">About</Link></li>
-                    <li><Link to="sign">Sign</Link></li>
+                    <li><Link to="dashboard">Dashboard</Link></li>
                 </ul>
             </div>
         );

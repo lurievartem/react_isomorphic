@@ -1,6 +1,6 @@
 import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT} from '../actions/LoginActions';
 
-export default function loginReducer(state = { isAuthenticated: false }, action) {
+export default (state = { isAuthenticated: false }, action) => {
     switch (action.type){
         case LOGIN:
             return Object.assign({}, state);

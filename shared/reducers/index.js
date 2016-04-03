@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import { reducer as reduxAsyncConnect } from 'redux-async-connect'
-import modalReducer from './modalReducer';
-import userReducer from './userReducer';
-import loginReducer from './loginReducer';
+import { reducer as form } from 'redux-form';
+import { reducer as reduxAsyncConnect } from 'redux-async-connect';
+import { routerReducer as routing } from 'react-router-redux';
+import modal from './modalReducer';
+import user from './userReducer';
+import auth from './loginReducer';
 
 const rootReducer = combineReducers({
-    form: formReducer,
-    modal: modalReducer,
-    user: userReducer,
-    auth: loginReducer,
-    reduxAsyncConnect: reduxAsyncConnect
+    reduxAsyncConnect,
+    form,
+    routing,
+    modal,
+    user,
+    auth
 });
 
 export default rootReducer;

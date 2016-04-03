@@ -1,16 +1,22 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import { App, Home, About, Login, NotFound, LoginSuccess, SignUp } from './containers';
+import { showModal } from './actions/ModalActions';
+import { requireAuthentication } from './helpers/RequireAuth';
+import { About, App, Dashboard, Home, NotFound } from './containers';
 
-export default (
-    <Route path="/" component={App}>
-        {/*Home (main) route*/}
-        <IndexRoute component={Home}/>
 
-        <Route path="about" component={About}/>
-        <Route path="login" component={Login}/>
-        <Route path="sign"  component={SignUp}/>
+export default () => {
+    return (
+        <Route path="/" component={App}>
+            {/*Home (main) route*/}
+            <IndexRoute component={Home} attr="sdfsdf"/>
 
-        <Route path="*" component={NotFound} status={404}/>
-    </Route>
-);
+            <Route path="about" component={About}/>
+
+            {/*Protected routes*/}
+            <Route path="dashboard" component={requireAuthentication(Dashboard, Home)}/>
+
+            <Route path="*" component={NotFound} status={404}/>
+        </Route>
+    );
+};

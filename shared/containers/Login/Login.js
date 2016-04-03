@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect} from 'react-redux';
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm, initialize } from 'redux-form';
+import { replace } from 'react-router-redux';
 import { LoginForm } from '../../components';
 import { validateSignUpFormSync } from './validate';
 import { logIn } from '../../actions/LoginActions';
@@ -11,6 +12,9 @@ import FlatButton from 'material-ui/lib/flat-button';
 
 class Login extends Component{
     static propTypes = {
+        replace: PropTypes.func.isRequired,
+        modalProps: PropTypes.object.isRequired,
+        hideModal: PropTypes.func.isRequired,
         auth: PropTypes.object.isRequired,
         onLogin: PropTypes.func.isRequired,
         handleSubmit: PropTypes.func.isRequired,
@@ -21,6 +25,8 @@ class Login extends Component{
         if(nextProp.auth.isSave != undefined){
             if(nextProp.auth.isSave){
                 this.props.hideModal();
+                if(this.props.modalProps.redirectObj)
+                   this.props.replace(this.props.modalProps.redirectObj);
             } else{
                 console.log('error when save');
             }
@@ -50,7 +56,6 @@ class Login extends Component{
 
     login(data){
         this.props.onLogin(data);
-        //this.props.dispatch(initialize('LogIn', {}, ['username', 'password']));
     }
 
     cancel(event){
@@ -63,9 +68,14 @@ class Login extends Component{
 
 const enhance = compose(
     connect(
-        state => { return { auth: state.auth } },
+        state => { return {
+                auth: state.auth,
+                modalProps: state.modal.modalProps
+            }
+        },
         dispatch => {
             return bindActionCreators({
+                       replace: replace,
                        onLogin: logIn,
                        hideModal: hideModal
                    }, dispatch);

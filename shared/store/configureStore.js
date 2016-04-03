@@ -1,15 +1,19 @@
 import { createStore, applyMiddleware  } from 'redux';
+import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 import rootReducer from '../reducers';
-import thunk from 'redux-thunk';
 import promiseMiddleware from '../lib/promiseMiddleware';
 
 
-export default function configureStore(initialState){
+export default function configureStore(history, initialState){
+    const reduxRouterMiddleware = routerMiddleware(history);
+
     const store = createStore(
         rootReducer,
         initialState,
-        applyMiddleware(thunk, promiseMiddleware)
+        applyMiddleware(reduxRouterMiddleware, promiseMiddleware)
     );
+
+    const syncHistory = syncHistoryWithStore(history, store)
 
     if(module.hot){
         module.hot.accept('../reducers', () =>{
@@ -18,5 +22,8 @@ export default function configureStore(initialState){
         });
     }
 
-    return store;
+    return {
+        store,
+        syncHistory
+    }
 }

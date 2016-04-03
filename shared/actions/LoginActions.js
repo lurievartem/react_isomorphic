@@ -1,3 +1,4 @@
+import cookie from 'react-cookie';
 import api from '../api/';
 
 export const LOGIN = 'LOGIN';
@@ -11,13 +12,13 @@ export function logIn(credentials){
         type: LOGIN,
         promise: api.login.request('logIn', credentials),
         successFn: (res) => {
-            sessionStorage.setItem('idToken', res.login.token);
+            cookie.save('idToken', res.login.token);
         }
     }
 }
 
 export function logOut(){
-    sessionStorage.removeItem('idToken');
+    cookie.remove('idToken');
     return {
         type: LOGOUT
     }
