@@ -5,7 +5,7 @@ import { reduxForm, initialize } from 'redux-form';
 import { replace } from 'react-router-redux';
 import { LoginForm } from '../../components';
 import { validateSignUpFormSync } from './validate';
-import { logIn } from '../../actions/LoginActions';
+import { logIn } from '../../actions/AuthActions';
 import { hideModal } from '../../actions/ModalActions';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';

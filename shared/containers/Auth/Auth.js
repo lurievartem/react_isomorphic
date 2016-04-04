@@ -3,7 +3,7 @@ import { connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FlatButton from 'material-ui/lib/flat-button';
 import { Logout } from '../../components';
-import { logOut } from '../../actions/LoginActions';
+import { logOut } from '../../actions/AuthActions';
 import { showModal } from '../../actions/ModalActions';
 
 @connect(

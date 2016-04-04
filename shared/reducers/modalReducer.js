@@ -1,19 +1,11 @@
 import { SHOW_MODAL, HIDE_MODAL} from '../actions/ModalActions';
 
-const initialState = {
-    modalType: null,
-    modalProps: {}
-}
-
-export default (state = initialState, action) => {
+export default (state = { modalType: null, modalProps: {} }, action) => {
     switch (action.type){
         case SHOW_MODAL:
-            return {
-                modalType: action.modalType,
-                modalProps: action.modalProps
-            }
+            return { ...state, modalType: action.modalType, modalProps: action.modalProps };
         case HIDE_MODAL:
-            return initialState;
+            return { ...state, modalType: null, modalProps: {} };
         default:
             return state;
     }

@@ -3,13 +3,13 @@ import { GET_USERS, SAVE_USER, SAVE_USER_SUCCESS, SAVE_USER_FAILURE} from '../ac
 export default (state = {}, action) => {
     switch (action.type){
         case GET_USERS:
-            return Object.assign({}, state, action.res.data);
+            return {...state, ...action.res.data};
         case SAVE_USER:
-            return Object.assign({}, state);
+            return {...state, isSave: false};
         case SAVE_USER_SUCCESS:
-            return Object.assign({}, state, { isSave: true });
+            return {...state, isSave: true };
         case SAVE_USER_FAILURE:
-            return Object.assign({}, state, { isSave: false });
+            return {...state, isSave: false };
         default:
             return state;
     }

@@ -4,7 +4,7 @@ import { reducer as reduxAsyncConnect } from 'redux-async-connect';
 import { routerReducer as routing } from 'react-router-redux';
 import modal from './modalReducer';
 import user from './userReducer';
-import auth from './loginReducer';
+import auth from './authReducer';
 
 const rootReducer = combineReducers({
     reduxAsyncConnect,
