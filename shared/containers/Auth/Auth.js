@@ -7,7 +7,7 @@ import { logOut } from '../../actions/AuthActions';
 import { showModal } from '../../actions/ModalActions';
 
 @connect(
-    (state) => { return { auth: state.auth } },
+    state => { return { auth: state.auth } },
     dispatch => {
         return  bindActionCreators({
                     logout: logOut,

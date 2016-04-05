@@ -1,22 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import cookie from 'react-cookie';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { replace } from 'react-router-redux';
 import { showModal } from '../actions/ModalActions';
 
-export function requireAuthentication(ProtectedComponent, UnProtectedComponent) {
+export function requireAuthentication(ProtectedComponent, redirectURL) {
 
     @connect(
-        (state) => { return { isAuthenticated: state.auth.isAuthenticated } },
+        state => { return { isAuthenticated: state.auth.isAuthenticated } },
         dispatch => {
             return  bindActionCreators({
-                        showModal: showModal
+                        showModal: showModal,
+                        replace, replace
                     }, dispatch);
         }
     )
     class AuthenticatedComponent extends Component {
+        static contextType:{
+            router: PropTypes.object.isRequired
+        };
+
         componentDidMount(){
-            if(!this.props.isAuthenticated) this.showModal('LOGIN');
+            if(!this.props.isAuthenticated){
+                this.showModal('LOGIN', { onCloseModal: () => { this.props.replace(redirectURL); }});
+            }
+        }
+
+        componentWillUpdate(nextProps, nextState){
+            if(!nextProps.isAuthenticated){
+                this.props.replace(redirectURL);
+            }
         }
 
         render() {
@@ -24,7 +38,7 @@ export function requireAuthentication(ProtectedComponent, UnProtectedComponent) 
                 <div>
                     {this.props.isAuthenticated
                         ? <ProtectedComponent {...this.props}/>
-                        : <UnProtectedComponent {...this.props}/>
+                        : null
                     }
                 </div>
             )

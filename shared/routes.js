@@ -9,12 +9,12 @@ export default () => {
     return (
         <Route path="/" component={App}>
             {/*Home (main) route*/}
-            <IndexRoute component={Home} attr="sdfsdf"/>
+            <IndexRoute component={Home}/>
 
             <Route path="about" component={About}/>
 
             {/*Protected routes*/}
-            <Route path="dashboard" component={requireAuthentication(Dashboard, Home)}/>
+            <Route path="dashboard" component={requireAuthentication(Dashboard, '/')}/>
 
             <Route path="*" component={NotFound} status={404}/>
         </Route>

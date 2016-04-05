@@ -6,7 +6,6 @@ import { SignUpForm } from '../../components/';
 import { validateSignUpFormSync, validateSignUpFormAsync } from './validate';
 import { saveUser } from '../../actions/UserActions';
 import { logInUser } from '../../actions/AuthActions'
-import { hideModal } from '../../actions/ModalActions';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
 
@@ -26,7 +25,7 @@ class SignUp extends Component{
         if(nextProp.user.isSave != undefined){
             if(nextProp.user.isSave){
                 this.props.logInUser();
-                this.props.hideModal();
+                this.props.closeModal();
             } else{
                 console.log('error when save');
             }
@@ -35,7 +34,7 @@ class SignUp extends Component{
 
     render(){
         const { handleSubmit, fields } = this.props;
-        const cancel = this.cancel.bind(this);
+        const cancel = this.props.closeModal.bind(this);
         const submit = this.submit.bind(this);
         const actions = [
             <FlatButton label="Cancel"  onClick={cancel} />,
@@ -59,11 +58,6 @@ class SignUp extends Component{
         this.props.saveUser(data);
     }
 
-    cancel(event){
-        event.preventDefault();
-        event.stopPropagation();
-        this.props.hideModal();
-    }
 }
 
 const enhance = compose(
@@ -72,8 +66,7 @@ const enhance = compose(
         dispatch => {
             return bindActionCreators({
                        saveUser: saveUser,
-                       logInUser: logInUser,
-                       hideModal: hideModal
+                       logInUser: logInUser
                    }, dispatch);
         }
     ),

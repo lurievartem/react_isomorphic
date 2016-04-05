@@ -2,19 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect} from 'react-redux';
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm, initialize } from 'redux-form';
-import { replace } from 'react-router-redux';
 import { LoginForm } from '../../components';
 import { validateSignUpFormSync } from './validate';
 import { logIn } from '../../actions/AuthActions';
-import { hideModal } from '../../actions/ModalActions';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
 
 class Login extends Component{
     static propTypes = {
-        replace: PropTypes.func.isRequired,
-        modalProps: PropTypes.object.isRequired,
-        hideModal: PropTypes.func.isRequired,
         auth: PropTypes.object.isRequired,
         onLogin: PropTypes.func.isRequired,
         handleSubmit: PropTypes.func.isRequired,
@@ -24,9 +19,7 @@ class Login extends Component{
     componentWillReceiveProps(nextProp){
         if(nextProp.auth.isSave != undefined){
             if(nextProp.auth.isSave){
-                this.props.hideModal();
-                if(this.props.modalProps.redirectObj)
-                   this.props.replace(this.props.modalProps.redirectObj);
+                this.props.closeModal();
             } else{
                 console.log('error when save');
             }
@@ -36,10 +29,10 @@ class Login extends Component{
     render(){
         const { handleSubmit, fields } = this.props;
         const login = this.login.bind(this);
-        const cancel = this.cancel.bind(this);
+        const cancel = this.props.closeModal.bind(this);
         const actions = [
             <FlatButton label="Cancel"  onClick={cancel} />,
-            <FlatButton label="Save"  onClick={handleSubmit(login)} />
+            <FlatButton label="Log in"  onClick={handleSubmit(login)} />
         ];
 
         return(
@@ -58,26 +51,17 @@ class Login extends Component{
         this.props.onLogin(data);
     }
 
-    cancel(event){
-        event.preventDefault();
-        event.stopPropagation();
-        this.props.hideModal();
-    }
-
 }
 
 const enhance = compose(
     connect(
-        state => { return {
-                auth: state.auth,
-                modalProps: state.modal.modalProps
+        (state, ownProps) => { return {
+                auth: state.auth
             }
         },
         dispatch => {
             return bindActionCreators({
-                       replace: replace,
-                       onLogin: logIn,
-                       hideModal: hideModal
+                       onLogin: logIn
                    }, dispatch);
         }
     ),
